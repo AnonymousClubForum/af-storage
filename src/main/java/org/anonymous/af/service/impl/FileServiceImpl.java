@@ -1,6 +1,7 @@
 package org.anonymous.af.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -16,11 +17,12 @@ import org.anonymous.af.model.entity.FileEntity;
 import org.anonymous.af.model.request.UploadImageRequest;
 import org.anonymous.af.model.response.UploadImageResponse;
 import org.anonymous.af.service.FileService;
+import org.apache.opendal.Operator;
+import org.apache.opendal.OperatorOutputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,6 +34,8 @@ import java.io.InputStream;
 public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> implements FileService {
     @Resource
     private AfProperties afProperties;
+    @Resource
+    private Operator operator;
 
     /**
      * 生成唯一文件名（UUID）
@@ -62,16 +66,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
      * @param inputStream 文件输入流
      */
     private void storageFile(String path, InputStream inputStream) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(path)) {
-            byte[] b = new byte[inputStream.available()];
-            while (inputStream.read(b) != -1)
-                fileOutputStream.write(b);
-            inputStream.close();
-            fileOutputStream.flush();
-        } catch (Exception e) {
-            log.error("存储文件失败：", e);
-            throw new AfException("存储文件失败：" + e.getMessage());
-        }
+        OperatorOutputStream os = operator.createOutputStream(path);
+        IoUtil.copy(inputStream, os);
     }
 
     /**
@@ -119,5 +115,13 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
         response.setImageId(imageId);
         response.setThumbnailId(fileEntity.getId());
         return response;
+    }
+
+    @Override
+    public InputStream getFileInputStream(FileEntity entity) {
+        String fileName = entity.getFileName();
+        FileType fileType = FileType.valueOf(entity.getFileType());
+        String filePath = getFullPath(fileName, fileType);
+        return operator.createInputStream(filePath);
     }
 }
