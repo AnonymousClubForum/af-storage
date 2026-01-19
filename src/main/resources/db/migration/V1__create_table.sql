@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `af_platform`.`t_user`
+(
+    `id`        BIGINT NOT NULL,
+    `file_name` VARCHAR(100) DEFAULT NULL COMMENT '文件名',
+    `file_type` VARCHAR(50)  DEFAULT NULL COMMENT '文件类型',
+    `ctime`     TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    `utime`     TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='用户表';

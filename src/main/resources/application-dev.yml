@@ -1,24 +1,6 @@
 spring:
   cloud:
-    service-registry:
-      auto-registration:
-        enabled: true
     nacos:
-      server-addr: 127.0.0.1:8848
-      username: nacos
-      password: nacos
-      discovery:
-        service: storage
-        group: DEFAULT_GROUP
-        namespace: prd
+      server-addr: 101.132.235.45:8848
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/af_storage
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-org:
-  anonymous:
-    root-save-path: "anonymous"
-    image-save-path: "images"
-    thumbnail-save-path: "thumbnails"
+    url: jdbc:mysql://101.132.235.45:3306/af_storage?createDatabaseIfNotExist=true

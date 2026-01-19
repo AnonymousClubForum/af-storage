@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.1</version>
+        <version>3.2.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.anonymous</groupId>
@@ -15,64 +15,91 @@
     <description>af-storage</description>
     <properties>
         <java.version>21</java.version>
+        <flyway.version>11.9.2</flyway.version>
+        <lombok.version>1.18.42</lombok.version>
+        <hutool.version>5.8.40</hutool.version>
+        <mysql.version>9.3.0</mysql.version>
+        <nacos.discovery.version>2023.0.3.4</nacos.discovery.version>
+        <mybatisplus.version>3.5.9</mybatisplus.version>
+        <jjwt.version>0.12.3</jjwt.version>
+        <maven.compiler.version>3.14.1</maven.compiler.version>
+        <thumbnailator.version>0.4.19</thumbnailator.version>
+        <opendal.version>0.48.2</opendal.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatisplus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Spring Web -->
+        <!-- Spring Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Flyway核心依赖 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- 图片处理 -->
-        <dependency>
-            <groupId>net.coobird</groupId>
-            <artifactId>thumbnailator</artifactId>
-            <version>0.4.19</version>
+            <version>${lombok.version}</version>
         </dependency>
         <!-- 常用工具类 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.40</version>
+            <version>${hutool.version}</version>
         </dependency>
         <!-- mysql -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>9.3.0</version>
+            <version>${mysql.version}</version>
         </dependency>
         <!-- nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>2.2.11</version>
+            <version>${nacos.discovery.version}</version>
         </dependency>
         <!-- MyBatis -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.9</version>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatisplus.version}</version>
         </dependency>
+        <!-- 图片处理 -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>4.0.0</version>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${thumbnailator.version}</version>
         </dependency>
         <!-- opendal 文件存取服务 -->
         <dependency>
             <groupId>org.apache.opendal</groupId>
             <artifactId>opendal</artifactId>
-            <version>0.48.2</version>
+            <version>${opendal.version}</version>
         </dependency>
     </dependencies>
 
@@ -81,6 +108,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>

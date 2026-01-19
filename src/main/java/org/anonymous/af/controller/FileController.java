@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
+
 
 /**
  * 文件接口控制器
@@ -60,7 +62,8 @@ public class FileController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+                        + new String(entity.getFileName().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"")
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new InputStreamResource(fileService.getFileInputStream(entity)));
     }
