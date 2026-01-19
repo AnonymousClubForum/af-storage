@@ -24,8 +24,6 @@ spring:
 
 org:
   anonymous:
-    root-save-path: "anonymous"
-    image-save-path: "images"
-    thumbnail-save-path: "thumbnails"
+    root-save-path: "af-storage"
 server:
   port: 8080

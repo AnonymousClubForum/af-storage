@@ -9,8 +9,4 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "org.anonymous")
 public class AfProperties {
     private String rootSavePath;
-
-    private String imageSavePath;
-
-    private String thumbnailSavePath;
 }

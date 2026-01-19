@@ -1,4 +1,4 @@
-package org.anonymous.af.model.entity;
+package org.anonymous.af.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
