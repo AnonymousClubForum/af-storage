@@ -38,8 +38,8 @@ public class FileController {
      * 文件下载
      */
     @GetMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestParam("file_id") Long fileId) throws FileNotFoundException {
-        FileEntity entity = fileService.getById(fileId);
+    public ResponseEntity<?> downloadFile(@RequestParam("id") Long id) throws FileNotFoundException {
+        FileEntity entity = fileService.getById(id);
         if (entity == null) {
             return ResponseEntity.notFound().build();
         }
