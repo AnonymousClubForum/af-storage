@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 
@@ -29,12 +30,8 @@ public class FileController {
      * 通用文件上传
      */
     @PostMapping("/upload")
-    public BaseResponse<Long> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            return BaseResponse.success(fileService.uploadFile(file));
-        } catch (Exception e) {
-            return BaseResponse.error("文件上传失败：" + e.getMessage());
-        }
+    public BaseResponse<Long> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        return BaseResponse.success(fileService.uploadFile(file));
     }
 
     /**
