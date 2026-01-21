@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 
 
@@ -44,7 +45,7 @@ public class FileController {
      * 文件下载
      */
     @GetMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestParam("file_id") Long fileId) {
+    public ResponseEntity<?> downloadFile(@RequestParam("file_id") Long fileId) throws FileNotFoundException {
         FileEntity entity = fileService.getById(fileId);
         if (entity == null) {
             return ResponseEntity.notFound().build();

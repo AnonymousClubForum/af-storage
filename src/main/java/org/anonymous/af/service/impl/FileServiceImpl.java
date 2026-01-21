@@ -1,7 +1,6 @@
 package org.anonymous.af.service.impl;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -13,14 +12,14 @@ import org.anonymous.af.entity.FileEntity;
 import org.anonymous.af.exception.AfException;
 import org.anonymous.af.mapper.FileMapper;
 import org.anonymous.af.service.FileService;
-import org.apache.opendal.Operator;
-import org.apache.opendal.OperatorOutputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * 文件服务实现类
@@ -30,8 +29,6 @@ import java.io.InputStream;
 public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> implements FileService {
     @Resource
     private AfProperties afProperties;
-    @Resource
-    private Operator operator;
 
     /**
      * 生成唯一文件名（UUID）
@@ -53,9 +50,20 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
      * @param path        存储路径
      * @param inputStream 文件输入流
      */
-    private void storageFile(String path, InputStream inputStream) {
-        OperatorOutputStream os = operator.createOutputStream(path);
-        IoUtil.copy(inputStream, os);
+    private void storageFile(String path, InputStream inputStream) throws IOException {
+        Path targetPath = Paths.get(path);
+
+        // 获取父目录路径，确保目录存在（多级目录会自动创建）
+        Path parentDir = targetPath.getParent();
+        if (parentDir != null && !Files.exists(parentDir)) {
+            Files.createDirectories(parentDir);
+        }
+
+        // 将输入流写入文件
+        try (inputStream) {
+            // COPY_ATTRIBUTES：复制源文件属性（如修改时间）
+            Files.copy(inputStream, targetPath, StandardCopyOption.COPY_ATTRIBUTES);
+        }
     }
 
     /**
@@ -80,9 +88,13 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
     }
 
     @Override
-    public InputStream getFileInputStream(FileEntity entity) {
+    public InputStream getFileInputStream(FileEntity entity) throws FileNotFoundException {
         String fileName = entity.getFileName();
         String filePath = getFullPath(fileName);
-        return operator.createInputStream(filePath);
+        File file = new File(filePath);
+        if (!file.exists() || !file.isFile()) {
+            throw new AfException("文件不存在或不是有效文件");
+        }
+        return new FileInputStream(file);
     }
 }

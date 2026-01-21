@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.anonymous.af.entity.FileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,5 +20,5 @@ public interface FileService extends IService<FileEntity> {
     /**
      * 获取文件
      */
-    InputStream getFileInputStream(FileEntity entity);
+    InputStream getFileInputStream(FileEntity entity) throws FileNotFoundException;
 }

@@ -24,7 +24,6 @@
         <jjwt.version>0.12.3</jjwt.version>
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <thumbnailator.version>0.4.19</thumbnailator.version>
-        <opendal.version>0.48.2</opendal.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -94,12 +93,6 @@
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>${thumbnailator.version}</version>
-        </dependency>
-        <!-- opendal 文件存取服务 -->
-        <dependency>
-            <groupId>org.apache.opendal</groupId>
-            <artifactId>opendal</artifactId>
-            <version>${opendal.version}</version>
         </dependency>
     </dependencies>
 
