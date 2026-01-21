@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `af_platform`.`t_user`
+CREATE TABLE IF NOT EXISTS `af_storage`.`t_file`
 (
     `id`        BIGINT NOT NULL,
     `file_name` VARCHAR(100) DEFAULT NULL COMMENT '文件名',
