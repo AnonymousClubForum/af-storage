@@ -19,7 +19,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 /**
  * 文件服务实现类
@@ -61,8 +60,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
 
         // 将输入流写入文件
         try (inputStream) {
-            // COPY_ATTRIBUTES：复制源文件属性（如修改时间）
-            Files.copy(inputStream, targetPath, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.copy(inputStream, targetPath);
         }
     }
 
