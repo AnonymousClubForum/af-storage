@@ -36,7 +36,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
      * @return 生成的文件名
      */
     private String generateFileName(String fileName) {
-        return IdUtil.fastSimpleUUID() + FileUtil.getSuffix(fileName);
+        return IdUtil.fastSimpleUUID() + '.' + FileUtil.getSuffix(fileName);
     }
 
     private String getFullPath(String fileName) {
