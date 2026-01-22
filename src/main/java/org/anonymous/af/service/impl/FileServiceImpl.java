@@ -68,7 +68,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
      * 通用文件上传
      */
     @Override
-    public Long uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file) throws IOException {
         if (file.isEmpty() || StrUtil.isBlank(file.getOriginalFilename())) {
             throw new AfException("上传文件为空");
         }
@@ -82,7 +82,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
         fileEntity.setFileName(fileName);
         save(fileEntity);
 
-        return fileEntity.getId();
+        return fileEntity.getId().toString();
     }
 
     @Override

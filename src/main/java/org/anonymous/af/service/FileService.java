@@ -17,7 +17,7 @@ public interface FileService extends IService<FileEntity> {
     /**
      * 通用文件上传
      */
-    Long uploadFile(MultipartFile file) throws IOException;
+    String uploadFile(MultipartFile file) throws IOException;
 
     /**
      * 获取文件

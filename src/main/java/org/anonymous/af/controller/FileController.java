@@ -30,7 +30,7 @@ public class FileController {
      * 通用文件上传
      */
     @PostMapping("/upload")
-    public BaseResponse<Long> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public BaseResponse<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return BaseResponse.success(fileService.uploadFile(file));
     }
 
