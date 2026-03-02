@@ -21,6 +21,10 @@ spring:
     clean-disabled: true  # 禁用clean命令
     encoding: UTF-8  # 脚本编码
     baseline-version: 0  # 基线版本
+  servlet:
+    multipart:
+      max-file-size: 10MB    # 单个文件最大10MB
+      max-request-size: 12MB # 单次请求总文件最大12MB
 
 org:
   anonymous:
