@@ -5,6 +5,7 @@ import org.anonymous.af.entity.FileEntity;
 import org.anonymous.af.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -47,6 +49,7 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
                         + new String(entity.getFileName().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"")
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
                 .body(new InputStreamResource(fileService.getFileInputStream(entity)));
     }
 }
