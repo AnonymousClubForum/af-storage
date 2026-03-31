@@ -1,6 +1,7 @@
 package org.anonymous.af.common;
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 /**
  * 统一返回结果封装
@@ -28,11 +29,11 @@ public class BaseResponse<T> {
 
     // 成功响应（有数据）
     public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(ResponseConstants.SUCCESS, "操作成功", data);
+        return new BaseResponse<>(HttpStatus.OK.value(), "操作成功", data);
     }
 
     // 失败响应
     public static <T> BaseResponse<T> error(String msg) {
-        return new BaseResponse<>(ResponseConstants.ERROR, msg, null);
+        return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg, null);
     }
 }
