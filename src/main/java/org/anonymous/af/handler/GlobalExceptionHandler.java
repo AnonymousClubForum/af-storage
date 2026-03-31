@@ -1,7 +1,8 @@
-package org.anonymous.af.exception;
+package org.anonymous.af.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.anonymous.af.common.BaseResponse;
+import org.anonymous.af.exception.AfException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-        log.error("文件上传大小超限：", e);
+        log.error("文件上传大小超限: {}", e.getMessage());
         return BaseResponse.error("文件大小超出限制（最大10MB）");
     }
 
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AfException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse<?> handleBusinessException(AfException e) {
-        log.error("业务异常：", e);
+        log.error("业务异常: {}", e.getMessage());
         return BaseResponse.error(e.getMessage());
     }
 
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResponse<?> handleException(Exception e) {
-        log.error("系统异常：", e);
+        log.error("系统异常: ", e);
         return BaseResponse.error("服务器内部错误：" + e.getMessage());
     }
 }
